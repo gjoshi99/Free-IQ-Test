@@ -166,8 +166,7 @@ renderQuestion();
 
 
 function showProfile(iq) {
-     const [userId,cookieUsernameObj] = document.cookie.split(';');
-     const [key,cookieUsername] = cookieUsernameObj.split('=');
+
     let createModal = document.createElement('div');
     let createModalView = document.createElement('div');
     let createModalTitle = document.createElement("h1");
@@ -185,7 +184,9 @@ function showProfile(iq) {
     createModalPublishButton.classList.add('createModalPublishButton');
 
 
-    if(cookieUsername){
+    if(document?.cookie){
+        const [userId,cookieUsernameObj] = document.cookie.split(';');
+        const [key,cookieUsername] = cookieUsernameObj.split('=');
         createModalInput.value = cookieUsername
     }
     createModalTitle.textContent = "Publicera ditt resultat";
