@@ -8,144 +8,18 @@
 <meta name="keywords" content="IQ test, gratis IQ test, intelligenstest, logik test, talserier test, IQ test svenska, online IQ test">
 <meta name="description" content="Gör vårt gratis IQ-test online på svenska. 10 slumpade frågor inom logik, talserier och problemlösning. Få din uppskattade IQ direkt och dela ditt resultat.">
 <meta name="robots" content="index, Contact">
-<style>
-:root {
-    --primary: #4f46e5;
-    --bg: #f8fafc;
-    --card: #ffffff;
-    --border: #e2e8f0;
-}
-
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-    background: var(--bg);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.container {
-    width: 100%;
-    max-width: 700px;
-    padding: 30px;
-    z-index: 10;
-}
-
-.card {
-    background: var(--card);
-    padding: 40px;
-    border-radius: 16px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-    transition: 0.3s ease;
-}
-
-.progress {
-    height: 6px;
-    background: var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 25px;
-}
-
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: var(--primary);
-    transition: width 0.3s ease;
-}
-
-.question-number {
-    font-size: 14px;
-    color: #64748b;
-    margin-bottom: 10px;
-}
-
-.question {
-    font-size: 22px;
-    margin-bottom: 25px;
-}
-
-.option {
-    padding: 14px 16px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.option:hover {
-    border-color: var(--primary);
-    background: #eef2ff;
-}
-
-.option.selected {
-    background: var(--primary);
-    color: white;
-    border-color: var(--primary);
-}
-
-button {
-    margin-top: 20px;
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: none;
-    background: var(--primary);
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    width: 100%;
-    opacity: 0.5;
-    transition: 0.2s;
-}
-
-button.enabled {
-    opacity: 1;
-}
-
-.result {
-    text-align: center;
-}
-
-.result h2 {
-    font-size: 28px;
-}
-
-.result p {
-    font-size: 18px;
-}
-.backgroundImage{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    opacity: 0.2;
-    aspect-ratio: 1;
-}
-.share-card {
-    background: linear-gradient(135deg, #4f46e5, #6366f1);
-    color: white;
-    padding: 40px;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-}
-
-.share-card h1 {
-    font-size: 60px;
-    margin: 10px 0;
-}
-</style>
+<link rel="stylesheet" href="./index.css">
+<link rel="stylesheet" href="./modal.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
+    <div class="statistics" id="statistics">
+        <h3>Statistiker</h3>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0 0 20.25 18V6A2.25 2.25 0 0 0 18 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25Z" />
+        </svg>
+    </div>
 <img src="https://gjoshi99.github.io/Free-IQ-Test/iqgame.png"  class="backgroundImage">
-
 <div class="container">
     <div class="card" id="card">
         <div class="progress">
@@ -157,7 +31,11 @@ button.enabled {
 </div>
 
 <script src="questions.js"></script>
-<script>
+<script defer>
+const http = "https://albanianchat.se/game";
+
+
+
 let currentQuestion = 0;
 let score = 0;
 let selectedAnswer = null;
@@ -169,8 +47,6 @@ function takeTenQuestion(params) {
          const randomIndex = Math.floor(Math.random() * allQuestions.length)
          questions.push(allQuestions[randomIndex])
     }
-    console.log(questions)
-    console.log(questions.length)
 }
 
 takeTenQuestion();
@@ -230,6 +106,7 @@ function showResult() {
     const percentage = score / total;
     let iq = Math.round(70 + (percentage * 60));
 
+
     document.getElementById("progressBar").style.width = "100%";
 
     document.getElementById("content").innerHTML = `
@@ -244,8 +121,10 @@ function showResult() {
             <button onclick="downloadCard()" class="enabled">Ladda ner</button>
             <button onclick="shareCard()" class="enabled">Dela</button>
             <button onclick="location.reload()" class="enabled">Spela igen</button>
+            <button onclick="showProfile(${iq})" class="enabled" >Publicera Resultat</button>
         </div>
     `;
+
 }
 
 async function downloadCard() {
@@ -284,6 +163,134 @@ async function shareCard() {
 }
 
 renderQuestion();
+
+
+function showProfile(iq) {
+     const [userId,cookieUsernameObj] = document.cookie.split(';');
+     const [key,cookieUsername] = cookieUsernameObj.split('=');
+    let createModal = document.createElement('div');
+    let createModalView = document.createElement('div');
+    let createModalTitle = document.createElement("h1");
+    let createModalInput = document.createElement("input");
+    let createModalResult = document.createElement('p');
+    let createModalCloseButton = document.createElement('button');
+    let createModalPublishButton = document.createElement("button");
+
+    createModal.classList.add('createModal');
+    createModalView.classList.add('createModalView');
+    createModalInput.classList.add('createModalInput');
+    createModalTitle.classList.add('createModalTitle');
+    createModalResult.classList.add('createModalResult');
+    createModalCloseButton.classList.add('createModalCloseButton');
+    createModalPublishButton.classList.add('createModalPublishButton');
+
+
+    if(cookieUsername){
+        createModalInput.value = cookieUsername
+    }
+    createModalTitle.textContent = "Publicera ditt resultat";
+    createModalResult.textContent = `Genom att klicka på publicera knappen kommer du att publicera detta resultat och alla 
+    spelare i världen kommer kunna se ditt IQ-resultat, ditt resultat är ${iq}
+    `
+    createModalInput.placeholder = "Vad heter du?";
+    createModalCloseButton.textContent = "stäng";
+    createModalPublishButton.textContent = "Publicera";
+
+
+
+    document.body.appendChild(createModal)
+    createModal.appendChild(createModalCloseButton)
+    createModal.appendChild(createModalView);
+    createModalView.appendChild(createModalTitle);
+    createModalView.appendChild(createModalInput);
+    createModalView.appendChild(createModalResult);
+    createModalView.appendChild(createModalPublishButton);
+
+
+    createModalCloseButton.addEventListener('click', () => {
+        const durationTime = 500
+        createModal.animate([
+            {
+                transform: "translateY(0px)"
+            },
+            {
+                transform: `translateY(${createModal.offsetHeight}px)`
+            }
+            ],
+            {
+                duration: durationTime,
+                easing: "ease-out"
+            })
+
+        setTimeout(() => {
+            createModal.remove();
+        }, durationTime);
+    })
+
+
+
+    createModalPublishButton.addEventListener('click', () => {
+        const username = createModalInput.value;
+        console.log(username.length)
+        if(username.length <= 0) return alert('Du måste ha ett namn vid publicering');
+
+        SendData(username)
+    })
+}
+
+
+
+async function SendData(username) {
+    const total = questions.length;
+    const percentage = score / total;
+    let iq = Math.round(70 + (percentage * 60));
+    const [userId,cookieUsernameObj] = document.cookie.split(';');
+    const [key,token] = userId.split('=');
+
+
+    const data = {
+        total,
+        correctAnswers: score / total,
+        result: iq,
+        username,
+        token,
+    }
+    const res = await fetch(http + "/stats",{
+        method: "POST",
+        headers: {"content-type": "application/json"},
+        credentials: "include",
+        body: JSON.stringify(data)
+    })
+    
+    const resJson = await res.json();
+
+    if(res.status !== 200){
+        alert(resJson.message);
+        return
+    }
+
+    if(resJson.token){
+        document.cookie = `userId=${resJson.token}`;
+        document.cookie = `username=${resJson.username}`,
+        console.log(resJson.message);
+    }
+
+
+    if(resJson.redirectTo){
+        redirectToStatistics();
+    }
+}
+
+
+
+const statistics = document.getElementById('statistics');
+
+function redirectToStatistics() {
+    window.location.assign('/statistics.html')
+}
+
+statistics.addEventListener('click', () => redirectToStatistics())
+
 </script>
 
 </body>

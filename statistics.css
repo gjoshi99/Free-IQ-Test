@@ -1,0 +1,63 @@
+body{
+    background-color: black;
+    z-index: 0;
+    overflow-x: hidden;
+}
+.backButton{
+    position: absolute;
+    top: 2%;
+    left: 2%;
+    background-color: rgba(255, 255, 255, 0.8);
+    width: fit-content;
+    height: fit-content;
+    font-size: 20px;
+    color: balck;
+    padding: 10px 10px;
+    border-radius: 7px;
+    z-index: 2;
+}
+.backButton:hover{
+    scale: 1.1;
+    cursor: pointer;
+}
+
+
+.iqWrapper{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+.userStack {
+    position: absolute;
+    right: 30px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;   /* ← horizontal */
+    gap: 8px;
+    align-items: center;
+    width: 50%;
+    overflow-y: auto;
+}
+.userStack::-webkit-scrollbar{
+    display: none;
+}
+
+.userCard {
+    background: rgba(255,255,255, 0.85);
+    color: black;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.iqlistimage{
+    width: 100%;
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+}

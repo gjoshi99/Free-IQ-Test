@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./statistics.css">
+</head>
+<body>
+<p class="backButton" id="backButton">Tilbaka</p>
+<div class="iqWrapper">
+    <img src="./iq-list-image.png" class="iqlistimage">
+</div>
+</body>
+<script>
+const http = "https://albanianchat.se/game";
+let allResults = [];
+
+
+const backButton = document.getElementById('backButton');
+backButton.addEventListener('click', () => {
+    window.location.assign('/')
+})
+
+
+
+    document.addEventListener("DOMContentLoaded", async() => {
+        const [userId,cookieUsernameObj] = document.cookie.split(';');
+        const [key,cookieUsername] = cookieUsernameObj.split('=');
+        const [title,token] = userId.split('=');
+        const res = await fetch(http + "/resultaten", {
+            method: "POST",
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({token:token})
+        })
+
+        if(!res.ok) return;
+
+        const data = await res.json();
+
+        if(res.ok){
+            allResults = data.allResults;
+            if(allResults.length > 0){
+                listUsers()
+                console.log(allResults)
+            }
+        }
+    })
+
+
+    
+    
+    
+    function listUsers() {
+        
+        if (!allResults || allResults.length <= 0) return;
+        
+        const image = document.querySelector('.iqlistimage');
+        const wrapper = document.querySelector('.iqWrapper');
+        
+        const imageHeight = image.clientHeight;
+        
+        const minIQ = 70;
+        const maxIQ = 200;
+        const range = maxIQ - minIQ;
+        
+        const pxPerIQ = imageHeight / range;
+        
+        for (const group of allResults) {
+            
+            const iq = group._id;
+            if (iq < minIQ || iq > maxIQ) continue;
+            
+            const offsetFromTop = (maxIQ - iq -8) * pxPerIQ;
+            
+            const stack = document.createElement("div");
+            stack.classList.add("userStack");
+            
+            stack.style.top = Math.round(offsetFromTop) + "px";
+            
+            for (const user of group.users) {
+                
+                const card = document.createElement("div");
+                card.classList.add("userCard");
+                card.textContent = `${user.username}(${user.result})`;
+                
+                stack.appendChild(card);
+            }
+            
+            wrapper.appendChild(stack);
+        }
+    }
+    
+    window.addEventListener("resize", () => window.location.reload())
+</script>
+</html>

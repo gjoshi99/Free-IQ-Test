@@ -1,0 +1,102 @@
+.createModal{
+    margin: 0px;
+    padding: 0;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation-name: slideIn;
+    animation-duration: 1s;
+}
+
+@keyframes slideIn {
+    0%{
+        transform: translateY(600px);
+    }
+    100%{   
+        transform: translate(0);
+    }
+}
+
+.createModalView{
+    width:  40%;
+    height: fit-content;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+.createModalInput{
+    padding: 5px 5px;
+    width: 40%;
+    height: 35px;
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    caret-color: white;
+    border-radius: 10px;
+    border-color: white;
+}
+.createModalInput:focus{
+    outline-style: none;
+    outline-color: transparent;
+    outline-width: 0px;
+    animation-name: stretchWidth;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+@keyframes stretchWidth {
+    0% {
+        width: 40%;
+    }
+    100% {
+        width: 60%;
+    }
+}
+.createModalTitle{
+    color: black;
+    font-family: sans-serif;
+}
+.createModalResult{
+    font-size: 12px;
+    text-align: left;
+    color: black;
+    max-width: 60%;
+}
+.createModalPublishButton{
+    padding: 0;
+    width: 80px;
+    height: 45px;
+    background: none;
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 1);
+}
+
+.createModalCloseButton{
+    padding: 10px;
+    position: fixed;
+    right: 5%;
+    top: 5%;
+    width: fit-content;
+    height: fit-content;
+    border-radius: 20px;
+    border-color: white;
+    border-width: 1px;
+    border-style: solid;
+    font-family: sans-serif;
+    font-size: 18px;
+    color:  black;
+    background: none;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 7;
+    opacity: 1;
+}
