@@ -166,7 +166,6 @@ renderQuestion();
 
 
 function showProfile(iq) {
-
     let createModal = document.createElement('div');
     let createModalView = document.createElement('div');
     let createModalTitle = document.createElement("h1");
@@ -184,7 +183,7 @@ function showProfile(iq) {
     createModalPublishButton.classList.add('createModalPublishButton');
 
 
-    if(document?.cookie){
+    if(document?.cookie.length > 0){
         const [userId,cookieUsernameObj] = document.cookie.split(';');
         const [key,cookieUsername] = cookieUsernameObj.split('=');
         createModalInput.value = cookieUsername

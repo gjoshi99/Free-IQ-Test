@@ -25,13 +25,10 @@ backButton.addEventListener('click', () => {
 
 
     document.addEventListener("DOMContentLoaded", async() => {
-        const [userId,cookieUsernameObj] = document.cookie.split(';');
-        const [key,cookieUsername] = cookieUsernameObj.split('=');
-        const [title,token] = userId.split('=');
         const res = await fetch(http + "/resultaten", {
             method: "POST",
             headers: {'Content-type': 'application/json'},
-            body: JSON.stringify({token:token})
+            body: JSON.stringify({message: "djahsbdkanvfkjdnskfjan"})
         })
 
         if(!res.ok) return;
